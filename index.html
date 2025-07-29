@@ -53,17 +53,6 @@
       margin-top: 0;
       font-size: 20px;
     }
-
-    /* ★★★ ロゴにIDを付与する前提のスタイルを追加 ★★★ */
-    #logo-title {
-        cursor: pointer;
-        user-select: none;
-        display: inline-block;
-        transition: transform 0.1s ease-in-out;
-    }
-    #logo-title:active {
-        transform: scale(0.95);
-    }
     
     #search-input { width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box; font-size: 14px; }
     #place-list { flex-grow: 1; overflow-y: auto; }
@@ -77,7 +66,7 @@
     #sidebar-toggle-icon { width: 8px; height: 8px; border-style: solid; border-color: #666; border-width: 0 2px 2px 0; transform: rotate(135deg); transition: transform 0.3s ease-in-out; }
     body.sidebar-collapsed #sidebar-toggle-icon { transform: rotate(-45deg); }
     
-    /* === 3. 上部ボタン・タグエリア (元のスタイルは変更なし) === */
+    /* === 3. 上部ボタン・タグエリア === */
     #buttons { background: #eee; padding: 10px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
     #mode-switch-buttons { display: flex; justify-content: space-between; align-items: center; }
     #mode-switch-buttons button { padding: 6px 12px; cursor: pointer; user-select: none; border: 1px solid #ccc; background-color: white; border-radius: 4px; transition: all 0.3s; }
@@ -86,16 +75,11 @@
     /* ★★★ 面白マップボタン用のスタイルを追加 ★★★ */
     #unique-mode-btn.active { background-color: #ff9800; color: white; border-color: #fb8c00; }
     
-    /* 初期状態は完全に非表示にしてレイアウトに影響させない */
-    #unique-mode-btn { display: none; }
-    #unique-mode-btn.is-visible { display: inline-block; opacity: 0; transform: scale(0.5); }
-    #unique-mode-btn.unlocked { opacity: 1; transform: scale(1); }
-    
     #clear-all-btn { padding: 6px 12px; font-size: 13px; background-color: #f0f0f0; color: #333; }
     #clear-all-btn:hover:not(:disabled) { background-color: #e0e0e0; }
     #clear-all-btn:disabled { background-color: #f9f9f9; color: #bbb; cursor: not-allowed; border-color: #ddd; }
     
-    /* 通常モードのタグ (変更なし) */
+    /* 通常モードのタグ */
     #tsujou-tags { display: flex; overflow-x: auto; white-space: nowrap; gap: 10px; padding-bottom: 5px; }
     #tsujou-tags .tag-btn { flex-shrink: 0; padding: 5px 10px; border: 2px solid #ccc; background-color: white; border-radius: 4px; cursor: pointer; }
     #tsujou-tags .tag-btn.active { background-color: #8bc34a; color: white; }
@@ -105,7 +89,7 @@
     #unique-tags .tag-btn { flex-shrink: 0; padding: 5px 10px; border: 2px solid #ccc; background-color: white; border-radius: 4px; cursor: pointer; }
     #unique-tags .tag-btn.active { background-color: #ff9800; color: white; border-color: #fb8c00; }
 
-    /* 災害モードのタグ (変更なし) */
+    /* 災害モードのタグ */
     #disaster-tags { display: flex; flex-direction: column; gap: 5px; }
     #disaster-categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
     .disaster-category-btn { position: relative; flex-shrink: 0; padding: 5px 25px 5px 10px; border-width: 2px; border-style: solid; background-color: white; border-radius: 4px; cursor: pointer; user-select: none; transition: background-color 0.3s, border-color 0.3s; }
@@ -121,14 +105,26 @@
     .type-mfd { border-color: #4caf50; }
     .type-of { border-color: #ff9800; }
 
-    /* 各種スクロールバー (変更なし) */
+    /* 各種スクロールバー */
     #tsujou-tags::-webkit-scrollbar, #unique-tags::-webkit-scrollbar, #disaster-categories::-webkit-scrollbar, #disaster-sub-tags::-webkit-scrollbar { height: 5px; }
     #tsujou-tags::-webkit-scrollbar-thumb, #unique-tags::-webkit-scrollbar-thumb, #disaster-categories::-webkit-scrollbar-thumb, #disaster-sub-tags::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
     
-    /* === 4. Leafletカスタムスタイル (変更なし) === */
+    /* === 4. Leafletカスタムスタイル === */
     .custom-popup .leaflet-popup-content-wrapper { background: #ffffff; color: #4a4a4a; border-radius: 8px; box-shadow: 0 3px 14px rgba(0,0,0,0.4); display: inline-block; padding: 0; }
     .custom-popup .leaflet-popup-content { margin: 0; padding: 5px 10px; font-size: 10.5px; font-weight: bold; text-align: center; white-space: nowrap; }
     .custom-popup .leaflet-popup-tip { background: #ffffff; }
+
+    /* ★★★ 絵文字マーカー用のスタイルを追加 ★★★ */
+    .emoji-marker {
+        font-size: 28px;
+        text-align: center;
+        line-height: 40px;
+        background: rgba(255, 255, 255, 0.85);
+        border: 2px solid #555;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; /* 絵文字の表示を安定させる */
+    }
 
     /* === 5. レスポンシブ対応 (変更なし) === */
     @media (max-width: 768px) {
@@ -141,11 +137,10 @@
 </head>
 <body>
 
-  <!-- === HTML構造（h2にIDを付与） === -->
+  <!-- === HTML構造（面白マップを常設） === -->
   <div id="sidebar">
-    <h2 id="logo-title">まっぷ～</h2>
+    <h2>まっぷ～</h2>
     <h2>施設情報</h2>
-    <!-- ★★★ 修正点1: placeholderの文言を変更 ★★★ -->
     <input type="text" id="search-input" placeholder="施設名やタグで検索" />
     <div id="place-list"></div>
   </div>
@@ -159,7 +154,7 @@
         <div>
           <button id="tsujou-mode-btn">通常モード</button>
           <button id="disaster-mode-btn">災害モード</button>
-          <!-- ★★★ 面白マップボタンをここに追加（JSで表示を制御） ★★★ -->
+          <!-- ★★★ 面白マップボタンを常時表示 ★★★ -->
           <button id="unique-mode-btn">面白マップ</button>
         </div>
         <button id="clear-all-btn">選択をすべて解除</button>
@@ -182,12 +177,12 @@
           <button class="tag-btn" data-type="区立施設">区立施設</button>
           <button class="tag-btn" data-type="その他">その他</button>
         </div>
-        <!-- ★★★ 面白マップ用のタグエリアを追加 ★★★ -->
+        <!-- ★★★ 面白マップ用のタグエリアを常時表示 ★★★ -->
         <div id="unique-tags" style="display: none;">
           <button class="tag-btn" data-type="猫">🐱 猫</button>
-          <button class="tag-btn" data-type="看板">看板</button>
-          <button class="tag-btn" data-type="自販機">🥤 自販機</button>
-          <button class="tag-btn" data-type="景色">景色</button>
+          <button class="tag-btn" data-type="看板">📜 看板</button>
+          <button class="tag-btn" data-type="自販機">🥫 自販機</button>
+          <button class="tag-btn" data-type="景色">🏞️ 景色</button>
           <button class="tag-btn" data-type="お花">🌸 お花</button>
         </div>
       </div>
@@ -203,7 +198,7 @@
       const map = L.map('map', { minZoom: 15 });
       const yotsugiBounds = [[35.7300, 139.8300], [35.7450, 139.8550]];
 
-      // ★★★ 面白マップ用のデータを追加 ★★★
+      // ★★★ 面白マップ用のデータを復活 ★★★
       const uniquePlaces = [
         { name: "公園ベンチの主、ボス", latlng: [35.73375, 139.83625], tags: ["猫"], icon: "猫", image: "images/marker_cat.png", description: "茶トラ柄。夕方によく見かける。人懐っこいが触らせてはくれない絶妙な距離感。" },
         { name: "スーパーおおたかやの看板猫", latlng: [35.73690, 139.83675], tags: ["猫"], icon: "猫", image: "images/marker_cat.png", description: "白黒のハチワレ。店主さんに可愛がられている。運が良ければ会えるかも。" },
@@ -225,37 +220,30 @@
        'kouzui': L.icon({ iconUrl: 'images/marker_flood.png', iconSize: [40, 40], iconAnchor: [30,60] }), 
        'saigaizikyuu': L.icon({ iconUrl: 'images/marker_drinkingwater.png', iconSize: [40, 40], iconAnchor: [30,60] }), 
        'byouinn': L.icon({ iconUrl: 'images/marker_hospital.png', iconSize: [40, 40], iconAnchor: [30,60] }),
-       // ★★★ 面白マップ用のアイコンを追加 ★★★
-       '猫': L.icon({ iconUrl: 'images/marker_cat.png', iconSize: [50, 50], iconAnchor: [30,60] }),
-       '看板': L.icon({ iconUrl: 'images/marker_signboard.png', iconSize: [50, 50], iconAnchor: [30,60] }),
-       '自販機': L.icon({ iconUrl: 'images/marker_jihanki.png', iconSize: [50, 50], iconAnchor: [30,60] }),
-       '景色': L.icon({ iconUrl: 'images/marker_keshiki.png', iconSize: [50, 50], iconAnchor: [30,60] }),
-       'お花': L.icon({ iconUrl: 'images/marker_ohana.png', iconSize: [50, 50], iconAnchor: [30,60] })
+       // ★★★ 面白マップ用のアイコンを絵文字(L.divIcon)に変更 ★★★
+       '猫': L.divIcon({ html: '🐈', className: 'emoji-marker', iconSize: [40, 40], iconAnchor: [20, 40] }),
+       '看板': L.divIcon({ html: '📜', className: 'emoji-marker', iconSize: [40, 40], iconAnchor: [20, 40] }),
+       '自販機': L.divIcon({ html: '🥫', className: 'emoji-marker', iconSize: [40, 40], iconAnchor: [20, 40] }),
+       '景色': L.divIcon({ html: '🏞️', className: 'emoji-marker', iconSize: [40, 40], iconAnchor: [20, 40] }),
+       'お花': L.divIcon({ html: '🌸', className: 'emoji-marker', iconSize: [40, 40], iconAnchor: [20, 40] })
       };
       
       const places = [ 
         { name: "カフェ・ド・クリエ", latlng: [35.73752, 139.83852], tags: ["飲食店"], icon: "飲食店", image: "images/crea.png", description: "カフェ・ド・クリエです。" }, 
         { name: "たこ焼き本舗", latlng: [35.73522, 139.83712], tags: ["飲食店"], icon: "飲食店", image: "images/takoyaki.png", description: "たこ焼きが自慢のお店。" }, 
-        
         { name: "四つ木公園", latlng: [35.733753950986156, 139.83635777333907], tags: ["公園"], icon: "公園", image: "images/kouenn.png", description: "四つ木の中では一番広い公園です。遊具も多く、大きな滑り台が特徴的です。" },  
         { name: "篠原公園", latlng: [35.73795527486445, 139.83415860655035], tags: ["公園"], icon: "公園", image: "images/shino.png", description: "子供たちに人気の公園。" },
         { name: "四つ木3丁目児童遊園", latlng: [35.73760, 139.83170], tags: ["公園"], icon: "公園", image: "images/koutoudanchi.png", description: "子供たちに人気の公園。" }, 
         { name: "四つ木メダカの小道", latlng: [35.73760, 139.83170], tags: ["公園","お散歩"], icon: "公園", image: "images/medakanokomiti.png", description: "夏には子供たちがザリガニ釣りをしています。" }, 
         { name: "曳舟川親水公園", latlng: [35.741185121020585, 139.83835555737366], tags: ["公園","お散歩"], icon: "公園", image: "images/shinn.png", description: "夏には水が引かれ、自然豊かな公園です。" },
         { name: "白髭神社児童遊園", latlng: [35.737697002024966, 139.8375501257051], tags: ["公園","神社"], icon: "公園", image: "images/shinn.png", description: "白髭神社に隣接する公園です。シンプルな昔ながらの遊具があります。" },
-        
-        
         { name: "オーケー四ツ木店", latlng: [35.73807, 139.83162], tags: ["スーパー"], icon: "スーパー", image: "images/supare.png", description: "駐車場が大きく比較的に大きなスーパーです。" },
         { name: "スーパーおおたかや", latlng: [35.73688, 139.83672], tags: ["スーパー"], icon: "スーパー", image: "images/supare.png", description: "地域密着スーパーです。" },
-       
         { name: "キャプテン翼像", latlng: [35.73778, 139.83912], tags: ["キャプテン翼"], icon: "キャプテン翼", image: "images/crot.png", description: "キャプテン翼の銅像です。" },
-       
         { name: "四つ木地区センター", latlng: [35.74086, 139.83705], tags: ["区立施設"], icon: "区立施設", image: "images/library.png", description: "地域の活動拠点です。" }, 
         { name: "葛飾四つ木地区図書館", latlng: [35.737229389659426, 139.83446640003285], tags: ["区立施設"], icon: "区立施設", image: "images/library.png", description: "全国でも珍しい小学校とつながっている図書館です。" }, 
-       
         { name: "西図書館", latlng: [35.73488, 139.83785], tags: ["その他"], icon: "その他", image: "images/library.png", description: "区立の図書館です。" }, 
         { name: "西光寺", latlng: [35.734467566784, 139.83403555085036], tags: ["その他","天台宗"], icon: "その他", image: "images/library.png", description: "天台宗のお寺です。「一隅をてらす」" },
-         
       ];
       
       const disasterPlaces = [ 
@@ -280,7 +268,6 @@
       const uniqueModeBtn = document.getElementById('unique-mode-btn');
       const clearAllBtn = document.getElementById('clear-all-btn');
       const sidebarToggle = document.getElementById('sidebar-toggle');
-      const logoTitle = document.getElementById('logo-title');
       const tsujouTagsDiv = document.getElementById('tsujou-tags');
       const disasterTagsDiv = document.getElementById('disaster-tags');
       const uniqueTagsDiv = document.getElementById('unique-tags');
@@ -291,7 +278,6 @@
       let selectedTags = new Set();
       let markers = [];
       let openCategories = new Set();
-      let isUniqueModeUnlocked = false;
 
       // --- 関数定義 ---
       function switchMode(mode) {
@@ -308,7 +294,6 @@
         updateView();
       }
       
-      // ★★★ handleTsujouTagClick を汎用的な handleTagClick に変更 ★★★
       function handleTagClick(event) {
         const tagType = event.target.dataset.type;
         selectedTags.has(tagType) ? selectedTags.delete(tagType) : selectedTags.add(tagType);
@@ -332,7 +317,6 @@
         else if (currentMode === 'unique') data = uniquePlaces;
         else return;
 
-        // ★★★ 修正点2: フィルタリング条件を「施設名」または「タグ」のいずれかに変更 ★★★
         const filtered = data.filter(place => 
             (selectedTags.size === 0 || place.tags.some(tag => selectedTags.has(tag))) &&
             (place.name.toLowerCase().includes(searchWord) || place.tags.some(tag => tag.toLowerCase().includes(searchWord)))
@@ -341,7 +325,7 @@
         filtered.forEach(place => {
           const icon = icons[place.icon] || icons['その他'];
           const marker = L.marker(place.latlng, { icon: icon }).addTo(map);
-          marker.bindPopup(place.name, { offset: L.point(0, -90), className: 'custom-popup' });
+          marker.bindPopup(place.name, { offset: L.point(0, -30), className: 'custom-popup' }); // offset調整
           marker.on('click', () => highlightPlaceCard(place.name));
           markers.push(marker);
 
@@ -408,37 +392,18 @@
       
       searchInput.addEventListener('input', updateView);
       
-      // ★★★ 各タグのイベントリスナーをまとめて設定 ★★★
       document.querySelectorAll('#tsujou-tags .tag-btn').forEach(btn => btn.addEventListener('click', handleTagClick));
       document.querySelectorAll('#unique-tags .tag-btn').forEach(btn => btn.addEventListener('click', handleTagClick));
       document.querySelectorAll('.disaster-category-btn').forEach(btn => btn.addEventListener('click', handleDisasterCategoryClick));
-      document.querySelectorAll('#disaster-sub-tags .sub-tag-btn').forEach(btn => btn.addEventListener('click', handleSubTagClick));
       
-      // ★★★ 隠しコマンドのイベントリスナー ★★★
-      let clickCount = 0;
-      let clickTimer = null;
-      logoTitle.addEventListener('click', () => {
-        if (isUniqueModeUnlocked) return;
-        clickCount++;
-        if (clickCount === 1) {
-          clickTimer = setTimeout(() => { clickCount = 0; }, 400); 
-        } else if (clickCount === 3) {
-          clearTimeout(clickTimer);
-          clickCount = 0;
-          isUniqueModeUnlocked = true;
-          
-          uniqueModeBtn.classList.add('is-visible');
-          requestAnimationFrame(() => {
-              uniqueModeBtn.classList.add('unlocked');
-          });
-
-          logoTitle.style.transition = 'transform 0.5s cubic-bezier(0.25, 2.5, 0.5, 1)';
-          logoTitle.style.transform = 'rotate(360deg) scale(1.2)';
-          setTimeout(() => { logoTitle.style.transform = 'none'; }, 500);
+      createSubTagButtons();
+      // disaster-sub-tags内のボタンにイベントリスナーを追加
+      disasterSubTagsContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('sub-tag-btn')) {
+            handleSubTagClick(event);
         }
       });
       
-      createSubTagButtons();
       switchMode('tsujou');
     });
   </script>
